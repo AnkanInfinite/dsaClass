@@ -21,6 +21,18 @@ void push(int st[],int max,int* top,int item){
     (*top)++;
     st[*top]=item;
 }
+void printTransactionHistory(int st[],int top){
+    if(top==-1){
+        printf("No Previous Transaction ! \n");
+        return;
+    }
+    while(top>-1){
+        printf("Transaction %d amount : %d",top+1,st[top]);
+        printf("\n");
+        top--;
+    }
+    return;
+}
 
 int pop(int st[],int* top){
     if(*top==-1){
@@ -47,7 +59,7 @@ int main(){
     int stack[stackSize];
     int top=-1;
     while(1){
-        printf("Enter Your choice :\n 1:Push \n 2:pop \n 3:sum of all transaction amount \n 4:exit \n");
+        printf("Enter Your choice :\n 1:Push \n 2:pop \n 3:sum of all transaction amount \n 4:Show Transaction History \n 5:exit \n");
         scanf("%d",&choice);
         switch(choice){
             case 1 :
@@ -64,6 +76,10 @@ int main(){
                 printf("\n");
                 break;
             case 4 :
+                printf("Printing Previous Transactions :\n");
+                printTransactionHistory(stack,top);
+                break;
+            case 5 :
                 printf("Exiting programme ...");
                 printf("\n");
                 exit(0);

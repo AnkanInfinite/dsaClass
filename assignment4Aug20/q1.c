@@ -36,7 +36,7 @@ void printTransactionHistory(int st[],int top){
 
 int pop(int st[],int* top){
     if(*top==-1){
-        printf("Underflow !");
+        printf("Underflow !\n");
         return -1;
     }
     int x=st[*top];
@@ -69,7 +69,9 @@ int main(){
                 break;
             case 2 :
                 int x=pop(stack,&top);
-                printf("Popped %d \n",x);
+                if(x != -1){
+                    printf("Popped %d \n",x);
+                }
                 break;
             case 3 :
                 printf("Total_transaction_amount : %d",doSum(stack,top));

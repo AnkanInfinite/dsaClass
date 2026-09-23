@@ -10,16 +10,34 @@ Sample input: 3+4*5
 #include<stdio.h>
 #include<string.h>
 #include<ctype.h>
+
+#define maxStackSize 100
 typedef struct {
-    char ar[30];
+    char ar[maxStackSize];
     int top;
 }stack;
+void push(stack* st,char item){
+    if(st->top >= maxStackSize-1){
+        printf(" Stack Overflow ");
+        printf("\n");
+        return;
+    }
+    st->ar[++(st->top)]=item;
+}
 
+int pop(stack* st){
+    if(st->top<0){
+        printf("Stack Underflow");
+        printf("\n");
+        return -1;
+    }
+    return st->ar[(st->top)--];
+}
 int precedence(char c){
-    if(c=='+')return 1;
-    else if(c=='-')return 1;
+    if(c=='+' || c=='-')return 1;
     else if(c=='*' || c=='/')return 2;
-    return 2;
+    else if(c=='^')return 3;
+    return 0;
 }
 
 void infixToPostfix(char postfix[],char s[] , stack *st){
@@ -31,27 +49,25 @@ void infixToPostfix(char postfix[],char s[] , stack *st){
         }
         else{
             if(st->top==-1){
-                st->ar[++(st->top)]=s[i];
+                push(st,s[i]);
             }
             else if(precedence(st->ar[st->top]) < precedence(s[i])){
-                st->ar[(++(st->top))]=s[i];
+                push(st,s[i]);
             }
             else{
                 while((st->top)>-1 &&  (precedence(st->ar[st->top]) >= precedence(s[i]))){
-                    postfix[j]=st->ar[st->top];
-                    st->top--;
+                    postfix[j]=pop(st);
                     j++;
                 }
-                st->ar[++(st->top)]=s[i];
+                push(st,s[i]);
             }
         }
     }
     while((st->top) >-1 ){
-        postfix[j]=st->ar[st->top];
-        st->top--;
+        postfix[j]=pop(st);
         j++;
     }
-    postfix[++j]='\0';
+    postfix[j]='\0';
 }
 
 int main(){
